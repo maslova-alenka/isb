@@ -53,3 +53,19 @@ def read_json(path: str) -> dict:
         print("The file was not found")
     except Exception as e:
         print(f"An error occurred while reading the JSON file: {str(e)}")
+
+
+def write_json(data: dict, path: str) -> None:
+    """
+    Writes data to a file in JSON format.
+
+    Parameters
+        data: data for recording
+        file_path: the path to the file to write to
+    """
+    try:
+        with open(path, "w", encoding="utf-8") as json_file:
+            json.dump(data, json_file, ensure_ascii=False, indent=1)
+            print(f"The data has been successfully written to the file '{path}'.")
+    except Exception as e:
+        print(f"Error writing to the file: '{e}'.")
