@@ -28,24 +28,6 @@ def atbash_cipher(text_path: str, path: str) -> None:
     write_file(path, result)
 
 
-def frequency_analysis(text: str) -> dict:
-    """
-    Performs a frequency analysis of the text and returns a sorted
-    dictionary with the frequency of each character.
-    """
-    frequencies = {}
-    total_chars = len(text)
-    for char in text:
-        if char in frequencies:
-            frequencies[char] += 1
-        else:
-            frequencies[char] = 1
-    for char, count in frequencies.items():
-        frequencies[char] = count / total_chars
-    sorted_freq = dict(sorted(frequencies.items(), key=lambda x: x[1], reverse=True))
-    return sorted_freq
-
-
 def key_json(path: str) -> None:
     reversed_alphabet = alphabet[::-1]
     key = dict()
