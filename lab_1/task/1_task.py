@@ -4,7 +4,6 @@ from working_with_a_file import*
 
 
 alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-reversed_alphabet = "ЯЮЭЬЫЪЩШЧЦХФУТСРПОНМЛКЙИЗЖЁЕДГВБА"
 
 
 def atbash_cipher(text_path: str, path: str) -> None:
@@ -16,6 +15,7 @@ def atbash_cipher(text_path: str, path: str) -> None:
     Returns
         encrypted message
     """
+    reversed_alphabet = alphabet[::-1]
     result = ''
     text = read_file(text_path)
     for char in text:
@@ -47,6 +47,7 @@ def frequency_analysis(text: str) -> dict:
 
 
 def key_json(path: str) -> None:
+    reversed_alphabet = alphabet[::-1]
     key = dict()
     for i, char in enumerate(alphabet):
         key[char] = reversed_alphabet[i]
@@ -74,3 +75,5 @@ if __name__ == "__main__":
     decryption(os.path.join('text', 'first_task', 'encryption.txt'),
                os.path.join('text', 'first_task', 'key.json'),
                os.path.join('text', 'first_task', 'decryption.txt'))
+
+
