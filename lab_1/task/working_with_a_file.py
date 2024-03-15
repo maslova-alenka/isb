@@ -61,7 +61,7 @@ def write_json(data: dict, path: str) -> None:
 
     Parameters
         data: data for recording
-        file_path: the path to the file to write to
+        path: the path to the file to write to
     """
     try:
         with open(path, "w", encoding="utf-8") as json_file:

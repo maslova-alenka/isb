@@ -1,6 +1,6 @@
-import json
 import os
-from working_with_a_file import*
+
+from working_with_a_file import *
 
 
 alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -8,12 +8,11 @@ alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 
 def atbash_cipher(text_path: str, path: str) -> None:
     """
-    Atbash cipher
+    implements the atbash cipher and writes data to a file
 
     Parameters
-        text: message
-    Returns
-        encrypted message
+        text_path: the path to the file where the message is located
+        path: the path where the cipher will be written
     """
     reversed_alphabet = alphabet[::-1]
     result = ''
@@ -29,6 +28,12 @@ def atbash_cipher(text_path: str, path: str) -> None:
 
 
 def key_json(path: str) -> None:
+    """
+    Сreate the key to the atbash cipher and writes it to a json file in the form of a dictionary
+
+    Parameters
+        path: the path where the key will be written
+    """
     reversed_alphabet = alphabet[::-1]
     key = dict()
     for i, char in enumerate(alphabet):
@@ -36,7 +41,15 @@ def key_json(path: str) -> None:
     write_json(key, path)
 
 
-def decryption(path_encryption: str, path_key: str, path_decryption: str):
+def decryption(path_encryption: str, path_key: str, path_decryption: str) -> None:
+    """
+    Decrypts the text by the key
+
+    Parameters
+        path_encryption: the path to the encrypted text file
+        path_key: the path to the key file
+        path_decryption: the path to the file where the decrypted text will be written
+    """
     key = read_json(path_key)
     decrypted_text = ''
     text = read_file(path_encryption)
