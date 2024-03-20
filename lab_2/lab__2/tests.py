@@ -99,11 +99,16 @@ def longest_run_ones_test(path: str, path_write: str, key: str) -> None:
 
 
 if __name__ == "__main__":
-    frequency_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'java')
-    frequency_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'c++')
+    setting = read_json("setting.json")
+    p = setting["from"]
+    pw = setting["to"]
+    # k = setting["java"]
+    print(p)
+    frequency_test(p, pw, "java")
+    frequency_test(p, pw, "c++")
 
-    same_bits_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'java')
-    same_bits_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'c++')
+    same_bits_test(p, pw, "java")
+    same_bits_test(p, pw, "c++")
 
-    longest_run_ones_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'java')
-    longest_run_ones_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'c++')
+    longest_run_ones_test(p, pw, "java")
+    longest_run_ones_test(p, pw, 'c++')
