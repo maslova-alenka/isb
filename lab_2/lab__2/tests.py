@@ -1,4 +1,5 @@
 import math
+import mpmath
 import os
 
 from working_with_a_file import *
@@ -10,7 +11,7 @@ def frequency_test(path: str, path_write: str, key: str) -> None:
     """
     Performs a frequency test on a binary sequence and writes the result to a file.
 
-    Parameters:
+    Parameters
         path: the path to the JSON file containing the binary sequence.
         path_write: the path to write the result of the test.
         key: the key in the dictionary to the binary sequence.
@@ -29,7 +30,7 @@ def same_bits_test(path: str, path_write: str, key: str) -> None:
     """
     Performs a test for the same consecutive bits and writes the result to a file.
 
-    Parameters:
+    Parameters
         path: the path to the JSON file containing the binary sequence.
         path_write: the path to write the result of the test.
         key: the key in the dictionary to the binary sequence.
@@ -54,9 +55,55 @@ def same_bits_test(path: str, path_write: str, key: str) -> None:
         print("An error occurred when performing a test for the same consecutive bits: ", e)
 
 
+def longest_run_ones_test(path: str, path_write: str, key: str) -> None:
+    """
+    Performs a test for the longest sequence of ones in the block and writes the result to a file.
+
+    Parameters
+        path: the path to the JSON file containing the binary sequence.
+        path_write: the path to write the result of the test.
+        key: the key in the dictionary to the binary sequence.
+    """
+    sequence = read_json(path)
+    try:
+        len_sequence = len(sequence.get(key))
+        block_max_size = 8
+        blocks = [sequence.get(key)[i:i + block_max_size] for i in range(0, len_sequence, block_max_size)]
+        v = {1: 0, 2: 0, 3: 0, 4: 0}
+        for block in blocks:
+            max_count = 0
+            count = 0
+            for bit in block:
+                if bit == "1":
+                    count += 1
+                else:
+                    max_count = max(max_count, count)
+                    count = 0
+            max_count = max(max_count, count)
+            match max_count:
+                case 0 | 1:
+                    v[1] += 1
+                case 2:
+                    v[2] += 1
+                case 3:
+                    v[3] += 1
+                case _:
+                    v[4] += 1
+        xi_square = 0
+        for i in range(4):
+            xi_square += pow(v[i + 1] - 16 * PI[i], 2) / (16 * PI[i])
+        value = mpmath.gammainc(3 / 2, xi_square / 2)
+        write_file(path_write, f'{key} : {value}\n')
+    except Exception as e:
+        print("An error occurred while performing the test for the longest sequence of ones in the block: ", e)
+
+
 if __name__ == "__main__":
     frequency_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'java')
     frequency_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'c++')
 
     same_bits_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'java')
     same_bits_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'c++')
+
+    longest_run_ones_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'java')
+    longest_run_ones_test(os.path.join('sequence.json'), os.path.join('result.txt'), 'c++')
