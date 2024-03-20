@@ -102,8 +102,7 @@ if __name__ == "__main__":
     setting = read_json("setting.json")
     p = setting["from"]
     pw = setting["to"]
-    # k = setting["java"]
-    print(p)
+
     frequency_test(p, pw, "java")
     frequency_test(p, pw, "c++")
 
