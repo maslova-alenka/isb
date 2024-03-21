@@ -74,12 +74,8 @@ def longest_run_ones_test(path: str, path_write: str, key: str) -> None:
             max_count = 0
             count = 0
             for bit in block:
-                if bit == "1":
-                    count += 1
-                else:
-                    max_count = max(max_count, count)
-                    count = 0
-            max_count = max(max_count, count)
+                count = count + 1 if bit == "1" else 0
+                max_count = max(max_count, count)
             match max_count:
                 case 0 | 1:
                     v[1] += 1

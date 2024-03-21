@@ -1,6 +1,9 @@
 #include <iostream>
 #include <random>
 
+/*!
+\brief Generates a random binary sequence and prints it to the console.
+*/
 void generateRandomBinarySequence() {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -13,6 +16,10 @@ void generateRandomBinarySequence() {
     }
 }
 
+/*!
+\brief The main function that generates a random binary sequence.
+\return The exit status of the program
+*/
 int main(){
     generateRandomBinarySequence();
     return 0;
