@@ -5,11 +5,20 @@ from symmetric import Symmetric
 from working_with_a_file import read_json
 
 
-def generation_action(symmetric: Symmetric, asymmetric: Asymmetric, settings: dict) -> None:
+def generation_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
     symmetric.generate_key()
     asymmetric.generate_keys()
-    symmetric.sym = asymmetric.encrypt(symmetric.sym)
-    asymmetric.serialization(settings["private_key"], settings["public_Key"])
+    asymmetric.serialization(setting["private_key"], setting["public_key"])
+
+
+def encryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> dict:
+    asymmetric.deserialization(setting["private_key"], setting["public_key"])
+    return setting
+
+
+def decryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
+    print(f"settings: {setting}")
+    asymmetric.deserialization(setting["private_key"], setting["public_key"])
 
 
 def menu():
@@ -24,8 +33,12 @@ def menu():
     symmetric = Symmetric()
     asymmetric = Asymmetric()
     if args.generation is not None:
-        asymmetric.generate_keys()
+        generation_action(symmetric, asymmetric, setting)
     elif args.encryption is not None:
-        ciphertext = symmetric.encrypt(setting["initial_file"], setting["encrypted_file"])
+        setting = encryption_action(symmetric, asymmetric, setting)
     else:
-        plaintext = symmetric.decrypt(setting["encrypted_file"], setting["decrypted_file"])
+        decryption_action(symmetric, asymmetric, setting)
+
+
+if __name__ == "__main__":
+    menu()
