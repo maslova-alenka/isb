@@ -6,9 +6,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 
 class Asymmetric:
-    def __init__(self, public_key_path, private_key_path):
-        self.public_key_path = public_key_path
-        self.private_key_path = private_key_path
+    def __init__(self):
         self.private_key = None
         self.public_key = None
 
@@ -20,26 +18,24 @@ class Asymmetric:
         self.private_key = keys
         self.public_key = keys.public_key()
 
-    def serialization(self) -> None:
-        public_key = self.public_key_path
-        private_key = self.private_key_path
-        with open(public_key, 'wb') as public_out:
+    def serialization(self, public_path, private_path) -> None:
+        public_key = self.public_key
+        private_key = self.private_key
+        with open(public_path, 'wb') as public_out:
             public_out.write(public_key.public_bytes(encoding=serialization.Encoding.PEM,
                                                      format=serialization.PublicFormat.SubjectPublicKeyInfo))
 
-        with open(private_key, 'wb') as private_out:
+        with open(private_path, 'wb') as private_out:
             private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
                                                         format=serialization.PrivateFormat.TraditionalOpenSSL,
                                                         encryption_algorithm=serialization.NoEncryption()))
 
-    def deserialization(self):
-        public_key = self.public_key_path
-        private_key = self.private_key_path
-        with open(public_key, 'rb') as pem_in:
+    def deserialization(self, public_path, private_path):
+        with open(public_path, 'rb') as pem_in:
             public_bytes = pem_in.read()
         self.public_key = load_pem_public_key(public_bytes)
 
-        with open(private_key, 'rb') as pem_in:
+        with open(private_path, 'rb') as pem_in:
             private_bytes = pem_in.read()
         self.private_key = load_pem_private_key(private_bytes, password=None, )
 
