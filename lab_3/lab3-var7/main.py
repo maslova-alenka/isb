@@ -6,19 +6,20 @@ from working_with_a_file import read_json
 
 
 def generation_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
-    symmetric.generate_key()
     asymmetric.generate_keys()
-    asymmetric.serialization(setting["private_key"], setting["public_key"])
+    asymmetric.serialization(setting["public_key"], setting["private_key"])
+    symmetric.serialize_sym_key(setting["symmetric_key"], symmetric.generate_key())
 
 
-def encryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> dict:
-    asymmetric.deserialization(setting["private_key"], setting["public_key"])
-    return setting
+def encryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict):
+    asymmetric.deserialization(setting["public_key"], setting["private_key"])
+    symmetric.deserialization_sym_key(setting["symmetric_key"])
+    symmetric = asymmetric.decrypt(symmetric.generate_key())
+    symmetric.encrypt(setting["initial_file"], setting["encrypted_file"])
 
 
 def decryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
-    print(f"settings: {setting}")
-    asymmetric.deserialization(setting["private_key"], setting["public_key"])
+    asymmetric.deserialization(setting["public_key"], setting["private_key"])
 
 
 def menu():
@@ -35,7 +36,7 @@ def menu():
     if args.generation is not None:
         generation_action(symmetric, asymmetric, setting)
     elif args.encryption is not None:
-        setting = encryption_action(symmetric, asymmetric, setting)
+        encryption_action(symmetric, asymmetric, setting)
     else:
         decryption_action(symmetric, asymmetric, setting)
 

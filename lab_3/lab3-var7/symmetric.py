@@ -9,8 +9,9 @@ class Symmetric:
     def __init__(self):
         self.key = None
 
-    def generate_key(self) -> None:
+    def generate_key(self) -> bytes:
         self.key = os.urandom(16)
+        return self.key
 
     def encrypt(self, path_text, encrypted_path_text):
         text = read_bytes(path_text)
@@ -35,3 +36,11 @@ class Symmetric:
         d_text = unpadded_dc_text.decode('UTF-8')
         write_file(decrypted_path_text, d_text)
         return d_text
+
+    def serialize_sym_key(self, path: str, key) -> None:
+        with open(path, 'wb') as key_file:
+            key_file.write(key)
+
+    def deserialization_sym_key(self, path: str) -> bytes:
+        with open(path, mode='rb') as key_file:
+            return key_file.read()
