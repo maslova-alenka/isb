@@ -2,7 +2,7 @@ import argparse
 
 from asymmetric import Asymmetric
 from symmetric import Symmetric
-from working_with_a_file import read_json
+from working_with_a_file import read_json, read_bytes
 
 
 def generation_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
@@ -12,14 +12,21 @@ def generation_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dic
 
 
 def encryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict):
-    asymmetric.deserialization(setting["public_key"], setting["private_key"])
-    symmetric.deserialization_sym_key(setting["symmetric_key"])
-    symmetric = asymmetric.decrypt(symmetric.generate_key())
+    asymmetric.deserialization(None, setting["private_key"])
+    enc_symmetric_key = read_bytes(setting["symmetric_key"])
+    #symmetric_key = symmetric.deserialization_sym_key(setting["symmetric_key"])
+    symmetric_key = asymmetric.decrypt(enc_symmetric_key)
+    symmetric.serialize_sym_key(setting["symmetric_key"], symmetric_key)
     symmetric.encrypt(setting["initial_file"], setting["encrypted_file"])
 
 
 def decryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
     asymmetric.deserialization(setting["public_key"], setting["private_key"])
+    encrypted_symmetric_key = symmetric.deserialization_sym_key(setting["symmetric_key"])
+    symmetric_key = asymmetric.decrypt(encrypted_symmetric_key)
+    symmetric = Symmetric()
+    symmetric.key = symmetric_key
+    symmetric.decrypt(setting["encrypted_file"], setting["decrypted_file"])
 
 
 def menu():

@@ -65,3 +65,13 @@ def read_bytes(file_path: str) -> bytes:
 def write_bytes_text(file_path: str, bytes_text: bytes) -> None:
     with open(file_path, "wb") as file:
         file.write(bytes_text)
+
+
+# def serialize_sym_key(path: str, key) -> None:
+#     with open(path, 'wb') as key_file:
+#         key_file.write(key)
+#
+#
+# def deserialization_sym_key(path: str) -> bytes:
+#     with open(path, mode='rb') as key_file:
+#         return key_file.read()
