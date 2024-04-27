@@ -3,6 +3,7 @@
   "encrypted_file": "texts/encrypted_text.txt",
   "decrypted_file": "texts/decrypted_text.txt",
   "symmetric_key": "key/symmetric.txt",
+  "encrypted_symmetric_key": "key/encrypted_symmetric_key.txt",
   "public_key": "key/public_key.pem",
   "private_key": "key/private_key.pem"
 }

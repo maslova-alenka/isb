@@ -30,17 +30,18 @@ class Asymmetric:
                                                         format=serialization.PrivateFormat.TraditionalOpenSSL,
                                                         encryption_algorithm=serialization.NoEncryption()))
 
-    def deserialization(self, public_path, private_path):
+    def public_key_deserialization(self, public_path):
         with open(public_path, 'rb') as pem_in:
             public_bytes = pem_in.read()
         self.public_key = load_pem_public_key(public_bytes)
 
+    def private_key_deserialization(self, private_path):
         with open(private_path, 'rb') as pem_in:
             private_bytes = pem_in.read()
         self.private_key = load_pem_private_key(private_bytes, password=None, )
 
     def encrypt(self, symmetric_key: bytes) -> bytes:
-        encrypted_symmetric_key = self.private_key.encrypt(symmetric_key,
+        encrypted_symmetric_key = self.public_key.encrypt(symmetric_key,
                                                            padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()),
                                                                         algorithm=hashes.SHA256(), label=None))
         return encrypted_symmetric_key

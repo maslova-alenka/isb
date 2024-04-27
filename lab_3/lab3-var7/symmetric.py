@@ -37,10 +37,10 @@ class Symmetric:
         write_file(decrypted_path_text, d_text)
         return d_text
 
-    def serialize_sym_key(self, path: str, key) -> None:
-        with open(path, 'wb') as key_file:
-            key_file.write(key)
+    # def serialize_sym_key(self, path: str) -> None:
+    #     with open(path, 'wb') as key_file:
+    #         key_file.write(self.key)
 
-    def deserialization_sym_key(self, path: str) -> bytes:
-        with open(path, mode='rb') as key_file:
-            return key_file.read()
+    def key_deserialization(self, file_name: str) -> None:
+        with open(file_name, "rb") as file:
+            self.key = file.read()

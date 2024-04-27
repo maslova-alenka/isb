@@ -2,26 +2,23 @@ import argparse
 
 from asymmetric import Asymmetric
 from symmetric import Symmetric
-from working_with_a_file import read_json, read_bytes
+from working_with_a_file import read_json, write_bytes_text, serialize_sym_key, read_bytes, read_file
 
 
 def generation_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
     asymmetric.generate_keys()
     asymmetric.serialization(setting["public_key"], setting["private_key"])
-    symmetric.serialize_sym_key(setting["symmetric_key"], symmetric.generate_key())
+    serialize_sym_key(setting["symmetric_key"], symmetric.generate_key())
 
 
 def encryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict):
-    asymmetric.deserialization(None, setting["private_key"])
-    enc_symmetric_key = read_bytes(setting["symmetric_key"])
-    #symmetric_key = symmetric.deserialization_sym_key(setting["symmetric_key"])
-    symmetric_key = asymmetric.decrypt(enc_symmetric_key)
-    symmetric.serialize_sym_key(setting["symmetric_key"], symmetric_key)
+    symmetric.key_deserialization(setting["symmetric_key"])
+    asymmetric.public_key_deserialization(setting["public_key"])
     symmetric.encrypt(setting["initial_file"], setting["encrypted_file"])
 
 
 def decryption_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
-    asymmetric.deserialization(setting["public_key"], setting["private_key"])
+    asymmetric.private_key_deserialization(setting["private_key"])
     encrypted_symmetric_key = symmetric.deserialization_sym_key(setting["symmetric_key"])
     symmetric_key = asymmetric.decrypt(encrypted_symmetric_key)
     symmetric = Symmetric()
@@ -33,7 +30,7 @@ def menu():
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-gen', '--generation', help='Запускает режим генерации ключей')
-    group.add_argument('-enc', '--encryption', help='Запускает режим шифрования')
+    group.add_argument('-enc', '--encryption', action='store_true', help='Запускает режим шифрования')
     group.add_argument('-dec', '--decryption', help='Запускает режим дешифрования')
 
     args = parser.parse_args()
