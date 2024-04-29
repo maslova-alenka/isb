@@ -20,25 +20,6 @@ def read_json(path: str) -> dict:
         print(f"An error occurred while reading the JSON file: {str(e)}")
 
 
-def read_file(path: str) -> str:
-    """
-    A function for reading the contents of a file and returning it as a string.
-
-    Parameters
-        path: the path to the file to read
-    Returns
-        A line with the contents of the file
-    """
-    try:
-        with open(path, "r", encoding='UTF-8') as file:
-            content = file.read()
-        return content
-    except FileNotFoundError:
-        print("The file was not found")
-    except Exception as e:
-        print(f"An error occurred while reading the file: {str(e)}")
-
-
 def write_file(path: str, data: str) -> None:
     """
     A function for writing data to a file.
@@ -51,6 +32,8 @@ def write_file(path: str, data: str) -> None:
         with open(path, "w", encoding='UTF-8') as file:
             file.write(data)
         print(f"The data has been successfully written to the file '{path}'.")
+    except FileNotFoundError:
+        print("The file was not found")
     except Exception as e:
         print(f"An error occurred while writing the file: {str(e)}")
 
@@ -64,9 +47,14 @@ def read_bytes(file_path: str) -> bytes:
     Returns
         The contents of the file in binary format.
     """
-    with open(file_path, "rb") as file:
-        data = file.read()
-    return data
+    try:
+        with open(file_path, "rb") as file:
+            data = file.read()
+        return data
+    except FileNotFoundError:
+        print("The file was not found")
+    except Exception as e:
+        print(f"An error occurred while reading the file: {str(e)}")
 
 
 def write_bytes_text(file_path: str, bytes_text: bytes) -> None:
@@ -77,5 +65,11 @@ def write_bytes_text(file_path: str, bytes_text: bytes) -> None:
         file_path: The path to the file where the data will be written.
         bytes_text: The binary data to be written to the file.
     """
-    with open(file_path, "wb") as file:
-        file.write(bytes_text)
+    try:
+        with open(file_path, "wb") as file:
+            file.write(bytes_text)
+        print(f"The data has been successfully written to the file '{file_path}'.")
+    except FileNotFoundError:
+        print("The file was not found")
+    except Exception as e:
+        print(f"An error occurred while writing the file: {str(e)}")

@@ -41,6 +41,8 @@ def menu():
             encryption_action(symmetric, setting)
         case args if args.decryption:
             decryption_action(symmetric, setting)
+        case _:
+            print("Необходимо указать один из флагов: --generation, --encryption or --decryption")
 
 
 if __name__ == "__main__":

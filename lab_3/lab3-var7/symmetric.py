@@ -32,8 +32,13 @@ class Symmetric:
         Parameters
             file_name: The path to the file containing the encryption key.
         """
-        with open(file_name, "rb") as file:
-            self.key = file.read()
+        try:
+            with open(file_name, "rb") as file:
+                self.key = file.read()
+        except FileNotFoundError:
+            print("The file was not found")
+        except Exception as e:
+            print(f"An error occurred while reading the file: {str(e)}")
 
     def serialize_sym_key(self, path: str) -> None:
         """
@@ -42,8 +47,13 @@ class Symmetric:
         Parameters
             path: The path to the file where the encryption key will be saved.
         """
-        with open(path, 'wb') as key_file:
-            key_file.write(self.key)
+        try:
+            with open(path, 'wb') as key_file:
+                key_file.write(self.key)
+        except FileNotFoundError:
+            print("The file was not found")
+        except Exception as e:
+            print(f"An error occurred while writing the file: {str(e)}")
 
     def encrypt(self, path_text: str, encrypted_path_text: str) -> bytes:
         """

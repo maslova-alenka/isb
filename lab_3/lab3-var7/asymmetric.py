@@ -38,14 +38,24 @@ class Asymmetric:
         """
         public_key = self.public_key
         private_key = self.private_key
-        with open(public_path, 'wb') as public_out:
-            public_out.write(public_key.public_bytes(encoding=serialization.Encoding.PEM,
-                                                     format=serialization.PublicFormat.SubjectPublicKeyInfo))
+        try:
+            with open(public_path, 'wb') as public_out:
+                public_out.write(public_key.public_bytes(encoding=serialization.Encoding.PEM,
+                                                         format=serialization.PublicFormat.SubjectPublicKeyInfo))
+        except FileNotFoundError:
+            print("The file was not found")
+        except Exception as e:
+            print(f"Error: {str(e)}")
 
-        with open(private_path, 'wb') as private_out:
-            private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
-                                                        format=serialization.PrivateFormat.TraditionalOpenSSL,
-                                                        encryption_algorithm=serialization.NoEncryption()))
+        try:
+            with open(private_path, 'wb') as private_out:
+                private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
+                                                            format=serialization.PrivateFormat.TraditionalOpenSSL,
+                                                            encryption_algorithm=serialization.NoEncryption()))
+        except FileNotFoundError:
+            print("The file was not found")
+        except Exception as e:
+            print(f"Error: {str(e)}")
 
     def public_key_deserialization(self, public_path: str) -> None:
         """
@@ -54,9 +64,14 @@ class Asymmetric:
         Parameters
             public_path: The path to the file containing the public key.
         """
-        with open(public_path, 'rb') as pem_in:
-            public_bytes = pem_in.read()
-        self.public_key = load_pem_public_key(public_bytes)
+        try:
+            with open(public_path, 'rb') as pem_in:
+                public_bytes = pem_in.read()
+            self.public_key = load_pem_public_key(public_bytes)
+        except FileNotFoundError:
+            print("The file was not found")
+        except Exception as e:
+            print(f"Error: {str(e)}")
 
     def private_key_deserialization(self, private_path: str) -> None:
         """
@@ -65,9 +80,14 @@ class Asymmetric:
         Parameters
             private_path: The path to the file containing the private key.
         """
-        with open(private_path, 'rb') as pem_in:
-            private_bytes = pem_in.read()
-        self.private_key = load_pem_private_key(private_bytes, password=None, )
+        try:
+            with open(private_path, 'rb') as pem_in:
+                private_bytes = pem_in.read()
+            self.private_key = load_pem_private_key(private_bytes, password=None, )
+        except FileNotFoundError:
+            print("The file was not found")
+        except Exception as e:
+            print(f"Error: {str(e)}")
 
     def encrypt(self, symmetric_key: bytes) -> bytes:
         """
