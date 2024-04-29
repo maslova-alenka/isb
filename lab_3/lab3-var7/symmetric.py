@@ -28,10 +28,11 @@ class Symmetric:
     def key_deserialization(self, file_name: str) -> None:
         """
         Deserializes the encryption key from a file.
-
         Parameters
             file_name: The path to the file containing the encryption key.
         """
+        with open(file_name, "rb") as file:
+            self.key = file.read()
         try:
             with open(file_name, "rb") as file:
                 self.key = file.read()
@@ -50,6 +51,7 @@ class Symmetric:
         try:
             with open(path, 'wb') as key_file:
                 key_file.write(self.key)
+            print(f"The symmetric key has been successfully written to the file '{path}'.")
         except FileNotFoundError:
             print("The file was not found")
         except Exception as e:

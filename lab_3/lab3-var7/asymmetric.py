@@ -42,6 +42,7 @@ class Asymmetric:
             with open(public_path, 'wb') as public_out:
                 public_out.write(public_key.public_bytes(encoding=serialization.Encoding.PEM,
                                                          format=serialization.PublicFormat.SubjectPublicKeyInfo))
+            print(f"The public key has been successfully written to the file '{public_path}'.")
         except FileNotFoundError:
             print("The file was not found")
         except Exception as e:
@@ -52,6 +53,7 @@ class Asymmetric:
                 private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
                                                             format=serialization.PrivateFormat.TraditionalOpenSSL,
                                                             encryption_algorithm=serialization.NoEncryption()))
+                print(f"The private key has been successfully written to the file '{private_path}'.")
         except FileNotFoundError:
             print("The file was not found")
         except Exception as e:
