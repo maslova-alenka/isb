@@ -79,6 +79,3 @@ def write_bytes_text(file_path: str, bytes_text: bytes) -> None:
     """
     with open(file_path, "wb") as file:
         file.write(bytes_text)
-
-
-
