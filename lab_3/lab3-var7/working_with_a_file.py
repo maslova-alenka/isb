@@ -72,6 +72,7 @@ def serialize_sym_key(path: str, key) -> None:
         key_file.write(key)
 
 
-# def deserialization_sym_key(path: str) -> bytes:
-#     with open(path, mode='rb') as key_file:
-#         return key_file.read()
+def deserialization_sym_key(path: str) -> bytes:
+    with open(path, mode='rb') as key_file:
+        return key_file.read()
+
