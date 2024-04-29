@@ -2,13 +2,14 @@ import argparse
 
 from asymmetric import Asymmetric
 from symmetric import Symmetric
-from working_with_a_file import read_json, write_bytes_text, serialize_sym_key, read_bytes, read_file
+from working_with_a_file import read_json
 
 
 def generation_action(symmetric: Symmetric, asymmetric: Asymmetric, setting: dict) -> None:
     asymmetric.generate_keys()
     asymmetric.serialization(setting["public_key"], setting["private_key"])
-    serialize_sym_key(setting["symmetric_key"], symmetric.generate_key())
+    symmetric.generate_key()
+    symmetric.serialize_sym_key(setting["symmetric_key"])
 
 
 def encryption_action(symmetric: Symmetric, setting: dict):
@@ -17,7 +18,8 @@ def encryption_action(symmetric: Symmetric, setting: dict):
 
 
 def decryption_action(symmetric: Symmetric, setting: dict):
-    symmetric.decrypt(setting["symmetric_key"], setting["encrypted_file"], setting["decrypted_file"])
+    symmetric.key_deserialization(setting["symmetric_key"])
+    symmetric.decrypt(setting["encrypted_file"], setting["decrypted_file"])
     print("Create")
 
 

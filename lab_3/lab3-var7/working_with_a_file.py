@@ -7,7 +7,6 @@ def read_json(path: str) -> dict:
 
     Parameters
         path: the path to the JSON file to read
-
     Returns
         Dictionary of data from a JSON file
     """
@@ -49,7 +48,7 @@ def write_file(path: str, data: str) -> None:
         data: data to write to a file
     """
     try:
-        with open(path, "a+", encoding='UTF-8') as file:
+        with open(path, "w", encoding='UTF-8') as file:
             file.write(data)
         print(f"The data has been successfully written to the file '{path}'.")
     except Exception as e:
@@ -57,22 +56,29 @@ def write_file(path: str, data: str) -> None:
 
 
 def read_bytes(file_path: str) -> bytes:
+    """
+    Reads the contents of a file in binary format.
+
+    Parameters
+        file_path: The path to the file to be read.
+    Returns
+        The contents of the file in binary format.
+    """
     with open(file_path, "rb") as file:
         data = file.read()
     return data
 
 
 def write_bytes_text(file_path: str, bytes_text: bytes) -> None:
+    """
+    Writes binary data to a file.
+
+    Parameters
+        file_path: The path to the file where the data will be written.
+        bytes_text: The binary data to be written to the file.
+    """
     with open(file_path, "wb") as file:
         file.write(bytes_text)
 
 
-def serialize_sym_key(path: str, key) -> None:
-    with open(path, 'wb') as key_file:
-        key_file.write(key)
-
-
-def deserialization_sym_key(path: str) -> bytes:
-    with open(path, mode='rb') as key_file:
-        return key_file.read()
 
