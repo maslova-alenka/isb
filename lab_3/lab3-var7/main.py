@@ -126,9 +126,10 @@ def menu():
     group.add_argument('-dec', '--decryption', help='Starts the decryption mode')
     group.add_argument('-enc_sym', '--encryption_symmetric', help='Starts symmetric key encryption mode')
     group.add_argument('-dec_sym', '--decryption_symmetric', help='Starts symmetric key encryption mode')
+    parser.add_argument("setting", type=str, help="Path to the json file with the settings")
 
     args = parser.parse_args()
-    setting = read_settings("setting.json")
+    setting = read_settings(args.setting)
     symmetric = Symmetric()
     asymmetric = Asymmetric()
     match args:
