@@ -28,16 +28,14 @@ class Asymmetric:
         self.private_key = keys
         self.public_key = keys.public_key()
 
-    def serialization(self, public_path: str, private_path: str) -> None:
+    def serialization_public(self, public_path: str) -> None:
         """
-        Serializes the RSA public and private keys to files.
+        Serializes the RSA public key to files.
 
         Parameters
             public_path: The path to the file where the public key will be saved.
-            private_path: The path to the file where the private key will be saved.
         """
         public_key = self.public_key
-        private_key = self.private_key
         try:
             with open(public_path, 'wb') as public_out:
                 public_out.write(public_key.public_bytes(encoding=serialization.Encoding.PEM,
@@ -48,6 +46,14 @@ class Asymmetric:
         except Exception as e:
             print(f"Error: {str(e)}")
 
+    def serialization_private(self, private_path: str) -> None:
+        """
+        Serializes the RSA private key to files.
+
+        Parameters
+            private_path: The path to the file where the private key will be saved.
+        """
+        private_key = self.private_key
         try:
             with open(private_path, 'wb') as private_out:
                 private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
