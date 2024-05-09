@@ -45,3 +45,9 @@ def graphing(original_hash: str, bins: list, last_digit: int) -> None:
     plt.plot(range(1, int(mp.cpu_count() * 1.5)), time_list, color='lime', linestyle='--', marker='x',
              linewidth=2, markersize=8)
     plt.show()
+
+
+if __name__ == "__main__":
+    o_h = "70ba6e37c3be80134c2fd8563043c0cb9278a43116b3bc2dfad03e2e455ed473"
+    b = [413064, 415028, 427230, 427275, 429749, 446674, 462017, 462043, 489327]
+    graphing(o_h, b, 1378)
