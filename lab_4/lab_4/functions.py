@@ -1,5 +1,9 @@
-import multiprocessing as mp
 import hashlib
+import multiprocessing as mp
+import time
+
+from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 
 def check_card_number(part: int, bins: list, last_digit: int, original_hash: str) -> str | None:
@@ -14,7 +18,7 @@ def get_card_number(original_hash: str, bins: list, last_digit: int, count_proce
         for result in p.starmap(check_card_number,
                                 [(i, bins, last_digit, original_hash) for i in list(range(0, 999999))]):
             if result:
-                print(f"Номер подобранной карты при количестве процессов = {count_process} : {result}")
+                print(f"The number of the selected card with the number of processes = {count_process} : {result}")
                 p.terminate()
                 return result
 
@@ -26,3 +30,18 @@ def luhn_algorithm(card_number: str) -> bool:
         if digits[i] > 9:
             digits[i] = (digits[i] // 10) + (digits[i] % 10)
     return sum(digits) % 10 == 0
+
+
+def graphing(original_hash: str, bins: list, last_digit: int) -> None:
+    time_list = list()
+    for count_process in tqdm(range(1, int(mp.cpu_count() * 1.5)), desc="Finding a collision"):
+        start_time = time.time()
+        if get_card_number(original_hash, bins, last_digit, count_process):
+            time_list.append(time.time() - start_time)
+    fig = plt.figure(figsize=(30, 5))
+    plt.ylabel('Time, s')
+    plt.xlabel('Processes')
+    plt.title("Statistics")
+    plt.plot(range(1, int(mp.cpu_count() * 1.5)), time_list, color='lime', linestyle='--', marker='x',
+             linewidth=2, markersize=8)
+    plt.show()
