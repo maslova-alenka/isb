@@ -1,6 +1,7 @@
 import hashlib
 import multiprocessing as mp
 import time
+import working_with_a_file
 
 from matplotlib import pyplot as plt
 from tqdm import tqdm
@@ -48,6 +49,9 @@ def graphing(original_hash: str, bins: list, last_digit: int) -> None:
 
 
 if __name__ == "__main__":
+    setting = working_with_a_file.read_json("parametrs.json")
     o_h = "70ba6e37c3be80134c2fd8563043c0cb9278a43116b3bc2dfad03e2e455ed473"
     b = [413064, 415028, 427230, 427275, 429749, 446674, 462017, 462043, 489327]
-    graphing(o_h, b, 1378)
+    #graphing(o_h, b, 1378)
+
+    get_card_number(o_h, b, 1378, )
