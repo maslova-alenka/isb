@@ -8,6 +8,10 @@ from PyQt5.QtWidgets import (QApplication, QInputDialog, QFileDialog, QMainWindo
 
 class MainWindow(QMainWindow):
     def __init__(self):
+        """
+        Initializes the MainWindow class, sets the window size and title,
+        and creates the central widget with various UI elements.
+        """
         super().__init__()
 
         self.resize(500, 300)
@@ -43,7 +47,6 @@ class MainWindow(QMainWindow):
         hbox.addWidget(self.btn_bins)
         hbox.addWidget(self.btn_hash_card)
         hbox.addWidget(self.btn_last_number)
-
         self.centralWidget.setLayout(hbox)
 
         self.setStyleSheet('background-color: #B0FFD9;')
@@ -51,6 +54,10 @@ class MainWindow(QMainWindow):
         self.show()
 
     def find_number(self) -> None:
+        """
+        Handles the logic to find the card number based on the provided hash value, BINs, and last digit.
+        If a valid card number is found, it is saved to a file. If not, a message is displayed.
+        """
         bins = self.btn_bins.text().split(",")
         hash_card = self.btn_hash_card.text()
         last_number = self.btn_last_number.text()
@@ -87,6 +94,11 @@ class MainWindow(QMainWindow):
             )
 
     def luna_alg(self) -> None:
+        """
+        Handles the logic to check the validity of a card number using the Luhn algorithm.
+        The user is prompted to enter a card number,
+        and a message is displayed based on the result of the Luhn algorithm check.
+        """
         card_number = QInputDialog.getText(
             self, "Enter the card number", "Card number:"
         )
@@ -106,6 +118,11 @@ class MainWindow(QMainWindow):
             )
 
     def graph_draw(self) -> None:
+        """
+        Handles the logic to generate a graph showing the execution time of the `get_card_number` function based
+        on the number of processes used.
+        The user is required to provide the necessary input parameters (hash, BINs, last digit).
+        """
         bins = self.btn_bins.text().split(",")
         hash_card = self.btn_hash_card.text()
         last_digit = self.btn_last_number.text()
@@ -131,6 +148,10 @@ class MainWindow(QMainWindow):
         functions.graphing(hash_card, bins, last_digit)
 
     def close_event(self):
+        """
+        Handles the logic to close the application when the user clicks the "Exit" button.
+        The user is prompted to confirm the exit action.
+        """
         reply = QMessageBox.question(self, 'Message', "Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No)
 

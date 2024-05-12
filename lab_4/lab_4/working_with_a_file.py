@@ -21,6 +21,13 @@ def read_json(path: str) -> dict:
 
 
 def write_file(path: str, data: list) -> None:
+    """
+    A function for writing data to a file.
+
+    Parameters
+        path: the path to the file to write
+        data: data to write to a file
+    """
     try:
         with open(path, "w", encoding="UTF-8") as file:
             json.dump({"card_number":  data}, file)
