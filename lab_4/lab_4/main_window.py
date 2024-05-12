@@ -126,7 +126,6 @@ class MainWindow(QMainWindow):
         bins = self.btn_bins.text().split(",")
         hash_card = self.btn_hash_card.text()
         last_digit = self.btn_last_number.text()
-
         if not bins or not hash_card or not last_digit:
             QMessageBox.information(
                 None,
@@ -144,7 +143,6 @@ class MainWindow(QMainWindow):
                 "Please enter valid values for the last 4 digits and BINs",
             )
             return
-
         functions.graphing(hash_card, bins, last_digit)
 
     def close_event(self):
