@@ -15,7 +15,7 @@ def read_json(path: str) -> dict:
             data = json.load(file)
         return data
     except FileNotFoundError:
-        print("The file was not found")
+        print(f"The file '{path}' was not found.")
     except Exception as e:
         print(f"An error occurred while reading the JSON file: {str(e)}")
 
@@ -32,6 +32,6 @@ def write_file(path: str, data: list) -> None:
         with open(path, "w", encoding="UTF-8") as file:
             json.dump({"card_number":  data}, file)
     except FileNotFoundError:
-        print("The file was not found")
+        print(f"The file '{path}' was not found.")
     except Exception as e:
         print(f"An error occurred while reading the JSON file: {str(e)}")
